@@ -5,14 +5,16 @@ import Image from 'next/image'
 import Shelter from '../../../../public/images/shelter.png'
 import Roulette from '../../../../public/images/roulette.png'
 import { Winner } from './winner'
+import { useStores } from '@/store/RootStore'
 
-const Slider: React.FC<ISliderProps> = ({ data, gameWinner }) => {
+const Slider = () => {
+  const { rollStore } = useStores()
   const sliderRef = useRef<HTMLUListElement | null>(null)
   const itemWidthRef = useRef<HTMLLIElement | null>(null)
   const [shuffledUsers, setShuffledUsers] = useState<string[]>([])
   const [winner, setWinner] = useState<string | null>(null)
 
-  const generateWeightedArray = (users: User[]): string[] => {
+  const generateWeightedArray = (users: User[], winner: string): string[] => {
     let weightedArray: string[] = []
 
     users.forEach(user => {
@@ -40,30 +42,35 @@ const Slider: React.FC<ISliderProps> = ({ data, gameWinner }) => {
   }
 
   useEffect(() => {
-    if (data && data.users) {
-      setWinner(data.game.winner.avatar)
-      setShuffledUsers(generateWeightedArray(data.users))
-    }
-    if (data) {
+    if (rollStore.sliderData) {
+      setWinner(rollStore.sliderData.game.winner.avatar)
+      const winnerAvatar = rollStore.sliderData.game.winner.avatar
+      setWinner(winnerAvatar)
+      setShuffledUsers(
+        generateWeightedArray(rollStore.sliderData.users, winnerAvatar),
+      )
       startScroll()
     }
     return () => setShuffledUsers([])
-  }, [data])
+  }, [rollStore.sliderData])
+
+  useEffect(() => {
+    console.log(winner)
+    console.log(shuffledUsers)
+  }, [winner, shuffledUsers])
 
   const startScroll = () => {
-    if (sliderRef.current && itemWidthRef.current && data) {
+    if (sliderRef.current) {
       const finalPosition = -7930
-
       sliderRef.current.style.transition =
         'transform 24000ms cubic-bezier(0, 0, 0, 1)'
-      sliderRef.current.style.transform = `translateX(${finalPosition}px)`
+      setTimeout(() => {
+        if (sliderRef.current) {
+          sliderRef.current.style.transform = `translateX(${finalPosition}px)`
+        }
+      }, 10)
     }
   }
-
-  if (!data) {
-    return <></>
-  }
-
   return (
     <div tw="flex flex-col gap-2.5">
       <div tw="relative h-[90px] overflow-hidden rounded-xs bg-white py-[6px] transition-colors duration-500 dark:bg-[#21273b]">
@@ -78,7 +85,7 @@ const Slider: React.FC<ISliderProps> = ({ data, gameWinner }) => {
                 <img
                   src={user}
                   alt={user}
-                  tw="overflow-hidden rounded-[10px] object-cover h-full"
+                  tw="h-full overflow-hidden rounded-[10px] object-cover"
                 />
               </li>
             ))}
@@ -102,7 +109,7 @@ const Slider: React.FC<ISliderProps> = ({ data, gameWinner }) => {
         <div tw="absolute bottom-0 left-1/2 top-0 w-[3px] -translate-x-1/2 transform bg-[linear-gradient(45deg,#e09823,#f7e2465c)]" />
       </div>
       <>
-        <Winner gameWinner={gameWinner || null} />
+        <Winner />
       </>
     </div>
   )

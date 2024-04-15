@@ -1,16 +1,20 @@
-import { configure } from 'mobx';
-import RollStore from './RollStore';
-
-configure({ enforceActions: 'observed' });
+import { createContext, useContext } from 'react'
+import RollStore from './RollStore'
+import { SliderStore } from './SliderStore'
 
 class RootStore {
-  rollStore: RollStore;
+  rollStore: RollStore
+  sliderStore: SliderStore
 
   constructor() {
-    this.rollStore = new RollStore();
+    this.rollStore = new RollStore()
+    this.sliderStore = new SliderStore()
   }
 }
 
-const rootStore = new RootStore();
+const rootStore = new RootStore()
+const RootStoreContext = createContext(rootStore)
 
-export default rootStore;
+export const useStores = (): RootStore => useContext(RootStoreContext)
+
+export default RootStore

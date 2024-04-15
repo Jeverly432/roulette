@@ -1,28 +1,29 @@
-import { useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
-import { useRootStore } from '../../store/RootStore';
-import { Game } from './game';
-import { Players } from './players';
-import { Best } from './bets';
-import Slider from './slider/Slider';
+import 'twin.macro'
+import { Game } from './game'
+import { Players } from './players'
+import { Best } from './bets'
+import Slider from './slider/Slider'
 
-const Roll = observer(() => {
-  const { rollStore } = useRootStore();
+import React from 'react'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '@/store/RootStore'
 
-  useEffect(() => {
-    return () => {
-      rollStore.disconnectFromCentrifuge();
-    };
-  }, [rollStore]);
+const Roll: React.FC = observer(() => {
+  const { rollStore } = useStores()
 
   return (
     <div tw="mx-auto flex max-w-[806px] flex-col gap-2.5">
       <Game messages={rollStore.messages || null} />
-      <Slider data={rollStore.sliderData || null} gameWinner={rollStore.gameWinner || null} />
+      {rollStore.sliderData && (
+        <Slider/>
+      )}
       <Players messages={rollStore.messages || null} />
-      <Best bets={rollStore.bets || null} userDetail={rollStore.messages?.percents || []} />
+      <Best
+        bets={rollStore.bets || null}
+        userDetail={rollStore.messages?.percents || []}
+      />
     </div>
-  );
-});
+  )
+})
 
-export default Roll;
+export default Roll
