@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { uri } from '../../utils/uri'
+import { uri_api } from '../../utils/uri-api'
 import { GameResponse } from './type'
 
 const getDataMain = async () => {
-  const url = `${uri()}/api/classic/main`
+  const url = `${uri_api()}/api/classic/main`
 
   try {
     const response = await axios.get(url, {

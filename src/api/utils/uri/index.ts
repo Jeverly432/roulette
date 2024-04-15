@@ -1,3 +1,3 @@
 export const uri = () => {
-  return "https://api.ezcash36.casino"
+  return 'https://ezcash36.casino'
 }

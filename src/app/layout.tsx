@@ -6,7 +6,7 @@ import GlobalStyles from '@/styles/GlobalStyles'
 import type { Metadata } from 'next'
 import 'twin.macro'
 
-// import '@/styles/global.css'
+import '@/styles/global.css'
 
 export const metadata: Metadata = {
   title: {

@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Circe';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../../public/fonts/Circe-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Circe';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../../public/fonts/Circe-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Circe';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../../public/fonts/Circe-Bold.woff2') format('woff2');
+}
+
+body {
+  font-family: 'Circe';
+}

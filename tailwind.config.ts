@@ -2,9 +2,6 @@
 
 module.exports = {
   darkMode: 'selector',
-}
-
-export default {
   content: ['*, ./index.html", "./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -20,9 +17,14 @@ export default {
         },
         blue: {
           primary: {
+            100: '#c4cce0',
             300: '#1c2133',
+            400: '#272e45',
           },
         },
+      },
+      borderRadius: {
+        xs: '10px',
       },
     },
   },

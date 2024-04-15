@@ -2,7 +2,7 @@ export interface GameResponse {
   game: Game
   percents: Percent[]
   bank: string
-  bets: { [key: string]: Bet }
+  bets: Bet[]
 }
 
 export interface Game {
@@ -29,7 +29,6 @@ export interface User {
   sum: number
   chance: number
 }
-
 export interface Bet {
   id: number
   user_id: number

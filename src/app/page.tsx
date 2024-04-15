@@ -1,10 +1,10 @@
 'use client'
-import { Home } from '@/components/home'
+import { Roll } from '@/components/roll'
 import 'twin.macro'
 
 const App = () => (
   <>
-    <Home />
+    <Roll />
   </>
 )
 
