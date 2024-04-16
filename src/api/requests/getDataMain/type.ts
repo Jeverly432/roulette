@@ -1,3 +1,5 @@
+import { User } from "@/types/types"
+
 export interface GameResponse {
   game: Game
   percents: Percent[]
@@ -21,14 +23,6 @@ export interface Percent {
   chance: number
 }
 
-export interface User {
-  id: number
-  avatar: string
-  color: string
-  name: string
-  sum: number
-  chance: number
-}
 export interface Bet {
   id: number
   user_id: number

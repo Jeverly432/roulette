@@ -11,5 +11,5 @@ export const Icons = {
   Time,
   Star,
   Money,
-  Team
+  Team,
 }

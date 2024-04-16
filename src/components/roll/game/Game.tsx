@@ -1,13 +1,16 @@
 import 'twin.macro'
 import Link from 'next/link'
 import { Icons } from '../../icons'
-import { IGame } from './types'
 import { uri } from '@/api/utils/uri'
+import { useStores } from '@/store/RootStore'
+import { observer } from 'mobx-react-lite'
 
-const Game: React.FC<IGame> = ({ messages }) => {
+const Game: React.FC = observer(() => {
+  const { rollStore } = useStores()
+
   return (
-    <div tw="rounded-xs shadow-[0px 7px 29px 0px rgb(222 226 241 / 33%)] overflow-hidden transition-shadow duration-500 dark:shadow-[]">
-      <div tw="dark:bg-blue-primary-400 bg-[#F7F8FC] transition-colors duration-500">
+    <div tw="shadow-[0px 7px 29px 0px rgb(222 226 241 / 33%)] overflow-hidden rounded-xs transition-shadow duration-500 dark:shadow-[]">
+      <div tw="bg-[#F7F8FC] transition-colors duration-500 dark:bg-blue-primary-400">
         <ul tw="flex h-[65px] items-center justify-center gap-[25px]">
           <li>
             <Link
@@ -21,7 +24,7 @@ const Game: React.FC<IGame> = ({ messages }) => {
           <li>
             <Link
               href={`${uri()}/classic/main/history`}
-              tw="dark:text-blue-primary-100 flex items-center gap-[5px] font-bold text-[#555F64] transition-all hover:opacity-[0.8]"
+              tw="flex items-center gap-[5px] font-bold text-[#555F64] transition-all hover:opacity-[0.8] dark:text-blue-primary-100"
             >
               <Icons.Time tw="h-[19px]" />
               История
@@ -29,17 +32,21 @@ const Game: React.FC<IGame> = ({ messages }) => {
           </li>
         </ul>
       </div>
-      <div tw="flex h-[510px] flex-col items-center justify-center gap-2.5 bg-white text-6xl font-bold transition-colors duration-500 dark:bg-[#21273b]">
+      <div tw="flex h-[510px] flex-col flex-col items-center justify-center gap-2.5 bg-white text-6xl font-bold transition-colors duration-500 dark:bg-[#21273b]">
         Roll
-        {messages?.game.price ? (
+        <p tw="">
+          00:{rollStore.gameTimer && rollStore.gameTimer < 10 ? 0 : ''}
+          {rollStore.gameTimer}
+        </p>
+        {rollStore.messages?.game.price ? (
           <div tw="flex items-center gap-2.5 text-[25px] text-[#f3a243]">
             <Icons.Money />
-            {messages?.game.price.toFixed(2)}
+            {rollStore.messages?.game.price.toFixed(2)}
           </div>
         ) : null}
       </div>
     </div>
   )
-}
+})
 
 export default Game

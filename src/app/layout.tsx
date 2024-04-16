@@ -11,7 +11,7 @@ import '@/styles/global.css'
 export const metadata: Metadata = {
   title: {
     template: '%s - ProjectName',
-    default: 'ProjectName',
+    default: 'EZCASH',
   },
   description: 'Description',
 }

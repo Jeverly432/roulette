@@ -1,1 +1,1 @@
-export {default as Percents} from "./Percent"
+export { default as Percents } from './Percent'

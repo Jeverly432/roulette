@@ -1,1 +1,1 @@
-export {default as Best } from "./Bets"
+export { default as Bets } from './Bets'

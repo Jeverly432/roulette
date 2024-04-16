@@ -1,1 +1,1 @@
-export {default as Roll} from "./Roll"
+export { default as Roll } from './Roll'

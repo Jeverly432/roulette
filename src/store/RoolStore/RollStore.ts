@@ -1,16 +1,16 @@
-/* eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwIiwiaW5mbyI6W119.bw8M6WYc3jrIx8-4T_9bc97TwJ-KpUGf8gHIMJINLZo */
 import { makeObservable, observable, action, runInAction } from 'mobx'
 import Centrifuge from 'centrifuge'
 import { getDataMain } from '@/api/requests/getDataMain'
 import { GameResponse } from '@/api/requests/getDataMain/type'
-import { Bet } from './types'
+import { Bet } from '../types'
 import { ISlider } from '@/components/roll/types'
 
-export default class RollStore {
+class RollStore {
   messages: GameResponse | null = null
   bets: Bet[] = []
-  sliderData: any = null
+  sliderData: ISlider | null = null
   gameWinner: ISlider | null = null
+  gameTimer: number | null = null
   centrifugeInstance: Centrifuge | null = null
 
   constructor() {
@@ -19,6 +19,7 @@ export default class RollStore {
       bets: observable,
       sliderData: observable,
       gameWinner: observable,
+      gameTimer: observable,
       connectToCentrifuge: action,
       disconnectFromCentrifuge: action,
       fetchInitialData: action,
@@ -27,6 +28,7 @@ export default class RollStore {
     this.connectToCentrifuge()
   }
 
+  // Методы подключения и отключения
   connectToCentrifuge() {
     this.centrifugeInstance = new Centrifuge(
       'wss://app.ezcash36.casino/connection/websocket',
@@ -58,6 +60,7 @@ export default class RollStore {
     }
   }
 
+  // Метод получения начальных данных
   async fetchInitialData() {
     try {
       const result = await getDataMain()
@@ -73,37 +76,63 @@ export default class RollStore {
     }
   }
 
+  // Метод подписки на Centrifuge
   subscribeToCentrifuge() {
     if (!this.centrifugeInstance) return
 
     this.centrifugeInstance.subscribe('broadcast', (message: any) => {
       runInAction(() => {
-        if (message.data?.room !== 'main') {
-          return
-        }
-        if (message.data?.type === 'newDeposit') {
-          this.messages = message.data.data
-          const newBet = message.data?.data?.bet
-          if (newBet) {
-            if (!this.bets.some(bet => bet.id === newBet.id)) {
-              this.bets.push(newBet)
-            }
-          }
-        }
-        if (message.data?.type === 'slider' && message.data?.data.time === 30) {
-          this.sliderData = message.data?.data
-        }
-        if (message.data?.type === 'slider' && message.data?.data.time === 5) {
-          this.gameWinner = message.data?.data
-          console.log((this.gameWinner = message.data?.data))
-        }
-        if (message.data?.type === 'newGame') {
-          this.messages = null
-          this.bets = []
-          this.sliderData = null
-          this.gameWinner = null
-        }
+        this.handleMessage(message)
       })
     })
   }
+
+  // Метод обработки сообщений
+  private handleMessage(message: any) {
+    if (message.data?.room !== 'main') return
+
+    switch (message.data?.type) {
+      case 'newDeposit':
+        this.handleNewDeposit(message)
+        break
+      case 'slider':
+        this.handleSlider(message)
+        break
+      case 'newGame':
+        this.handleNewGame()
+        break
+      default:
+        break
+    }
+  }
+
+  private handleNewDeposit(message: any) {
+    this.messages = message.data.data
+    const newBet = message.data?.data?.bet
+    if (newBet && !this.bets.some(bet => bet.id === newBet.id)) {
+      this.bets.push(newBet)
+    }
+  }
+
+  private handleSlider(message: any) {
+    const time = message.data?.data?.time
+    if (time) {
+      this.gameTimer = message.data?.data.time
+    }
+    if (time === 30) {
+      this.sliderData = message.data?.data
+    } else if (time === 5) {
+      this.gameWinner = message.data?.data
+      console.log(this.gameWinner)
+    }
+  }
+
+  private handleNewGame() {
+    this.messages = null
+    this.bets = []
+    this.sliderData = null
+    this.gameWinner = null
+  }
 }
+
+export default RollStore

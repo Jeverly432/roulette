@@ -2,7 +2,7 @@ import 'twin.macro'
 import Image from 'next/image'
 import FireImage from '../../../../../public/images/fire.png'
 
-const Fire = () => {
+const Fire: React.FC = () => {
   return (
     <>
       <Image
@@ -10,7 +10,7 @@ const Fire = () => {
         alt="fire"
         width={72}
         height={72}
-        tw="rounded-xs absolute h-full object-cover"
+        tw="absolute h-full rounded-xs object-cover"
       />
       <div tw="absolute bottom-[5px] left-1/2 z-10 -translate-x-1/2">
         <span

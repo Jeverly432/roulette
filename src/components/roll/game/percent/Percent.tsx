@@ -23,7 +23,7 @@ const Percent: React.FC<IPercent> = ({ percent }) => {
                 alt="avatar"
                 width={72}
                 height={72}
-                tw="rounded-xs absolute h-full object-cover"
+                tw="absolute h-full rounded-xs object-cover"
               />
               <div tw="absolute bottom-[5px] left-1/2 z-10 -translate-x-1/2">
                 <span

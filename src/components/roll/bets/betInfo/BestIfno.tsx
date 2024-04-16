@@ -10,14 +10,14 @@ const BetInfo: React.FC<IBetInfo> = ({ bet, users }) => (
       <li>
         <Link
           href={`${uri()}/teams/${bet.team.id}`}
-          tw="rounded-xs bg-[linear-gradient(to right,#f7c43b,#f7c43b)] flex h-[35px] items-center justify-between gap-[5px] px-5 font-bold text-white transition-all duration-500 hover:opacity-[0.8]"
+          tw="bg-[linear-gradient(to right,#f7c43b,#f7c43b)] flex h-[35px] items-center justify-between gap-[5px] rounded-xs px-5 font-bold text-white transition-all duration-500 hover:opacity-[0.8]"
         >
           <Icons.Team tw="h-[18px]" />
           {bet.team.name}
         </Link>
       </li>
     )}
-    <li tw="rounded-xs flex h-[35px] items-center justify-between gap-[5px] bg-[#F4F7FC] px-5 font-bold text-[#f3a243] transition-all duration-500 dark:bg-[#161B2B]">
+    <li tw="flex h-[35px] items-center justify-between gap-[5px] rounded-xs bg-[#F4F7FC] px-5 font-bold text-[#f3a243] transition-all duration-500 dark:bg-[#161B2B]">
       <Icons.Money />
       {bet.price}
     </li>

@@ -1,1 +1,1 @@
-export {default as SliderStore} from "./store"
+export { default as SliderStore } from './store'

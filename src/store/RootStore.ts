@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import RollStore from './RollStore'
+import { RollStore } from './RoolStore'
 import { SliderStore } from './SliderStore'
 
 class RootStore {

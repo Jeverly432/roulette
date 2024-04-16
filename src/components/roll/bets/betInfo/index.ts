@@ -1,1 +1,1 @@
-export {default as BetInfo} from "./BestIfno"
+export { default as BetInfo } from './BestIfno'

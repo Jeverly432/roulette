@@ -1,1 +1,1 @@
-export {default as Winner} from "./Winner"
+export { default as Winner } from './Winner'

@@ -1,6 +1,5 @@
 import tw from 'twin.macro'
-import React, { useEffect } from 'react'
-import { IWinner } from './types'
+import React from 'react'
 import Link from 'next/link'
 import { uri } from '@/api/utils/uri'
 import Image from 'next/image'
@@ -15,7 +14,6 @@ const Winner = observer(() => {
     rollStore.gameWinner?.users.find(user => user.name === gameWinner?.name)
       ?.color ?? ''
 
-  console.log(rollStore.gameWinner?.game.winner)
   return (
     <>
       {rollStore.gameWinner ? (
@@ -54,6 +52,9 @@ const Winner = observer(() => {
               ]}
             >
               {rollStore.gameWinner.chance.toFixed(1)}%
+            </li>
+            <li tw="flex h-[35px] cursor-pointer items-center justify-center rounded-xs bg-[#54d082] px-5 text-base font-bold text-white hover:opacity-[0.8]">
+              Проверить
             </li>
           </ul>
         </div>
