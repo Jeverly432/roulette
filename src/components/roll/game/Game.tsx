@@ -41,12 +41,14 @@ const Game: React.FC = observer(() => {
       <div tw="flex h-[510px] flex-col flex-col items-center justify-center gap-2.5 bg-white text-6xl font-bold transition-colors duration-500 dark:bg-[#21273b]">
         Roll
         <TimerDisplay />
-        {rollStore.messages?.game.price ? (
-          <div tw="flex items-center gap-2.5 text-[25px] text-[#f3a243]">
-            <Icons.Money />
-            {rollStore.messages?.game.price.toFixed(2)}
-          </div>
-        ) : null}
+        <div tw="flex items-center gap-2.5 text-[25px] text-[#f3a243]">
+          <Icons.Money />
+          {rollStore.messages?.game.price ? (
+            <>{rollStore.messages?.game.price.toFixed(2)}</>
+          ) : (
+            0
+          )}
+        </div>
       </div>
     </div>
   )
