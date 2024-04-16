@@ -14,4 +14,11 @@ export default withTwin({
       },
     ],
   },
+  webpack: (config)=>{
+    config.externals =[...config.externals, {canvas : 'canvas'}]
+    return config
+  },
+  experimental: {
+    esmExternals: "loose"
+  }
 })

@@ -1,5 +1,4 @@
-import { User } from "@/types/types";
-
+import { User } from '@/types/types'
 
 export const generateSliderArray = (
   users: User[],

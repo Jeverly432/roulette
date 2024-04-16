@@ -4,9 +4,15 @@ import { Icons } from '../../icons'
 import { uri } from '@/api/utils/uri'
 import { useStores } from '@/store/RootStore'
 import { observer } from 'mobx-react-lite'
+import { useEffect } from 'react'
+import { TimerDisplay } from './timerDisplay'
 
 const Game: React.FC = observer(() => {
   const { rollStore } = useStores()
+
+  useEffect(() => {
+    rollStore.startGameTimer
+  }, [rollStore.startGameTimer])
 
   return (
     <div tw="shadow-[0px 7px 29px 0px rgb(222 226 241 / 33%)] overflow-hidden rounded-xs transition-shadow duration-500 dark:shadow-[]">
@@ -34,10 +40,7 @@ const Game: React.FC = observer(() => {
       </div>
       <div tw="flex h-[510px] flex-col flex-col items-center justify-center gap-2.5 bg-white text-6xl font-bold transition-colors duration-500 dark:bg-[#21273b]">
         Roll
-        <p tw="">
-          00:{rollStore.gameTimer && rollStore.gameTimer < 10 ? 0 : ''}
-          {rollStore.gameTimer}
-        </p>
+        <TimerDisplay />
         {rollStore.messages?.game.price ? (
           <div tw="flex items-center gap-2.5 text-[25px] text-[#f3a243]">
             <Icons.Money />

@@ -11,6 +11,7 @@ class RollStore {
   sliderData: ISlider | null = null
   gameWinner: ISlider | null = null
   gameTimer: number | null = null
+  startGameTimer: number | null = null
   centrifugeInstance: Centrifuge | null = null
 
   constructor() {
@@ -20,6 +21,7 @@ class RollStore {
       sliderData: observable,
       gameWinner: observable,
       gameTimer: observable,
+      startGameTimer: observable,
       connectToCentrifuge: action,
       disconnectFromCentrifuge: action,
       fetchInitialData: action,
@@ -28,7 +30,6 @@ class RollStore {
     this.connectToCentrifuge()
   }
 
-  // Методы подключения и отключения
   connectToCentrifuge() {
     this.centrifugeInstance = new Centrifuge(
       'wss://app.ezcash36.casino/connection/websocket',
@@ -101,6 +102,8 @@ class RollStore {
       case 'newGame':
         this.handleNewGame()
         break
+      case 'timer':
+        this.handleTimer(message)
       default:
         break
     }
@@ -114,10 +117,22 @@ class RollStore {
     }
   }
 
+  private handleTimer(message: any) {
+    const time = message.data?.data
+    this.startGameTimer = time
+    console.log(time)
+    if (time === 1) {
+      this.startGameTimer = null
+    }
+  }
+
   private handleSlider(message: any) {
     const time = message.data?.data?.time
     if (time) {
       this.gameTimer = message.data?.data.time
+      if (time === 1) {
+        this.gameTimer = null
+      }
     }
     if (time === 30) {
       this.sliderData = message.data?.data
